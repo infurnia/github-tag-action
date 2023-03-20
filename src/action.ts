@@ -32,6 +32,7 @@ export default async function main() {
   const customReleaseRules = core.getInput('custom_release_rules');
   const shouldFetchAllTags = core.getInput('fetch_all_tags');
   const commitSha = core.getInput('commit_sha');
+  const repository = core.getInput('repository');
 
   let mappedReleaseRules;
   if (customReleaseRules) {
@@ -202,7 +203,7 @@ export default async function main() {
       commits,
       logger: { log: console.info.bind(console) },
       options: {
-        repositoryUrl: `${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}`,
+        repositoryUrl: `${process.env.GITHUB_SERVER_URL}/${repository}`,
       },
       lastRelease: { gitTag: latestTag.name },
       nextRelease: { gitTag: newTag, version: newVersion },

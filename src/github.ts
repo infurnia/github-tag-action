@@ -1,4 +1,4 @@
-import { context, getOctokit } from '@actions/github';
+import { getOctokit } from '@actions/github';
 import * as core from '@actions/core';
 import { Await } from './ts';
 
@@ -34,6 +34,9 @@ export async function listTags(
 ): Promise<Tag[]> {
   const octokit = getOctokitSingleton();
 
+  const [owner, repo] = core.getInput('repository').split('/');
+  const context = { repo: { owner: owner, repo: repo } };
+
   const tags = await octokit.repos.listTags({
     ...context.repo,
     per_page: 100,
@@ -56,6 +59,9 @@ export async function compareCommits(baseRef: string, headRef: string) {
   const octokit = getOctokitSingleton();
   core.debug(`Comparing commits (${baseRef}...${headRef})`);
 
+  const [owner, repo] = core.getInput('repository').split('/');
+  const context = { repo: { owner: owner, repo: repo } };
+
   const commits = await octokit.repos.compareCommits({
     ...context.repo,
     base: baseRef,
@@ -74,6 +80,10 @@ export async function createTag(
   let annotatedTag:
     | Await<ReturnType<typeof octokit.git.createTag>>
     | undefined = undefined;
+
+  const [owner, repo] = core.getInput('repository').split('/');
+  const context = { repo: { owner: owner, repo: repo } };
+
   if (createAnnotatedTag) {
     core.debug(`Creating annotated tag.`);
     annotatedTag = await octokit.git.createTag({

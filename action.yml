@@ -13,6 +13,9 @@ outputs:
   changelog:
     description: "The conventional changelog since the previous tag"
 inputs:
+  repository:
+    description: 'Repository to perform the tagging'
+    required: true
   github_token:
     description: "Required for permission to tag the repo."
     required: true
