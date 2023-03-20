@@ -65,7 +65,7 @@ inputs:
 
 runs:
   using: "node16"
-  main: "lib/main.js"
+  main: "dist/index.js"
 branding:
   icon: "git-merge"
   color: "purple"
